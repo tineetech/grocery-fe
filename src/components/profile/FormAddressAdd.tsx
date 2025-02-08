@@ -40,7 +40,7 @@ const fields = [
 ];
 
 interface LocationPickerProps {
-  setFieldValue: (field: string, value: any) => void;
+  setFieldValue: (field: string, value: number) => void;
 }
 
 interface FormAddressAddProps {

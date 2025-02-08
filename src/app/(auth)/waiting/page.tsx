@@ -4,12 +4,12 @@ import { getSession } from 'next-auth/react'
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 
-const page = () => {
+const Page = () => {
     useEffect(() => {
-        cekSesiGoogle()
+        CekSesiGoogle()
     })
     
-    const cekSesiGoogle = async () => {
+    const CekSesiGoogle = async () => {
     try {
         // Tunggu hingga sesi tersedia
         const session = await getSession();
@@ -62,4 +62,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

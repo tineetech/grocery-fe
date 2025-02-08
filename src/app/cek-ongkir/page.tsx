@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { CekOngkirApi } from "@/services/cek-ongkir/CekOngkirApi";
 import Image from "next/image";
-import { ValueResponse } from "@/types/cekongkir-types";
+import { ShippingRateResponseNew, ValueResponse } from "@/types/cekongkir-types";
 
 export default function CekOngkir() {
     const [origin, setOrigin] = useState("cilegon");
@@ -10,7 +10,7 @@ export default function CekOngkir() {
     const [weight, setWeight] = useState("1");
     const [couriers, setCouriers] = useState("jne");
     const [isSubmit, setIsSubmit] = useState(false);
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState<ShippingRateResponseNew | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     // List Kurir dari BinderByte
@@ -41,11 +41,13 @@ export default function CekOngkir() {
                 setError("An error accoument, courier not found or your connection is not stabile.")
             } 
             setIsSubmit(false);
-        } catch (error: any) {
-            setIsSubmit(false);
-            console.log('error: ', error);
-            setError(error.message);
-        }
+            } catch (error: unknown) {
+                if (error instanceof Error) {
+                    console.error("Error:", error.message);
+                } else {
+                    console.error("Unexpected error:", error);
+                }
+            }        
     };
 
     return (

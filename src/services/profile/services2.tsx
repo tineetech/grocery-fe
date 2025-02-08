@@ -1,15 +1,16 @@
+"use client"
 import { useAddressCustomer } from '@/components/hooks/useAddressCustomer';
 import { Address, AddressAdd } from '@/types/address-types';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 const base_url_be = process.env.NEXT_PUBLIC_BASE_URL_BE;
 type ToastType = "success" | "error" | "info" | "warning";
-const services2 = () => {
+const Services2 = () => {
   const [addressData, setAddressData] = useState<Address[]>([])
   const [load, setLoad] = useState(false)
 
   useEffect(() => {
-    getAddress();
+    GetAddress();
   }, []);
     
   const showToast = (message: string, type: ToastType, closeTime = 3000, onClose?: () => void) => {
@@ -23,7 +24,7 @@ const services2 = () => {
   });
   };
 
-  const getAddress = async () => {
+  const GetAddress = async () => {
     setLoad(true)
     try {
         const data = await useAddressCustomer.getAddress()
@@ -106,4 +107,4 @@ const services2 = () => {
   }
 }
 
-export default services2
+export default Services2

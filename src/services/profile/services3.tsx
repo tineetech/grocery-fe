@@ -1,15 +1,16 @@
+"use client"
 import { ordersCust } from '@/components/hooks/OrdersCust';
 import { Orders } from '@/types/orders-types';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 const base_url_be = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
-const services3 = () => {
+const Services3 = () => {
   const [ordersData, setOrdersData] = useState<Orders[]>([])
   const [load, setLoad] = useState(false)
 
   useEffect(() => {
-    getOrders();
+    GetOrders();
   }, []);
     
   const showToast = (message, type, closeTime = 3000, onClose = null) => {
@@ -23,7 +24,7 @@ const services3 = () => {
   });
   };
 
-  const getOrders = async () => {
+  const GetOrders = async () => {
     setLoad(true)
     try {
         const data = await ordersCust.getOrders()
@@ -44,4 +45,4 @@ const services3 = () => {
   }
 }
 
-export default services3
+export default Services3
