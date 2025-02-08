@@ -1,20 +1,8 @@
 
-C:\justineganteng\pemograman_new\projek\nextjs\client next\grocery\Finpro_Online-Grocery-Web-App_Frontend\src\app\(auth)\login-store-admin\page.tsx
-  63:5  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
-  64:7  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
-  76:7  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
-
-C:\justineganteng\pemograman_new\projek\nextjs\client next\grocery\Finpro_Online-Grocery-Web-App_Frontend\src\app\(auth)\login-super-admin\page.tsx
-  68:5  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
-  69:7  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
-  81:7  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
-
 C:\justineganteng\pemograman_new\projek\nextjs\client next\grocery\Finpro_Online-Grocery-Web-App_Frontend\src\app\(auth)\login-user-customer\page.tsx
-   3:8   error  'LoginFormStore' is defined but never used  @typescript-eslint/no-unused-vars
-  11:10  error  'getSession' is defined but never used      @typescript-eslint/no-unused-vars
-  80:5   error  'React' must be in scope when using JSX     react/react-in-jsx-scope
-  81:7   error  'React' must be in scope when using JSX     react/react-in-jsx-scope
-  93:7   error  'React' must be in scope when using JSX     react/react-in-jsx-scope
+  79:5  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
+  80:7  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
+  92:7  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
 
 C:\justineganteng\pemograman_new\projek\nextjs\client next\grocery\Finpro_Online-Grocery-Web-App_Frontend\src\app\(auth)\register-store-admin\page.tsx
    3:8  error  'LoginFormStore' is defined but never used    @typescript-eslint/no-unused-vars
@@ -529,7 +517,7 @@ C:\justineganteng\pemograman_new\projek\nextjs\client next\grocery\Finpro_Online
   12:10  error  'isCartOpen' is assigned a value but never used    @typescript-eslint/no-unused-vars
 
 C:\justineganteng\pemograman_new\projek\nextjs\client next\grocery\Finpro_Online-Grocery-Web-App_Frontend\src\components\navbarWrapper.tsx
-  32:53  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
+  42:53  error  'React' must be in scope when using JSX  react/react-in-jsx-scope
 
 C:\justineganteng\pemograman_new\projek\nextjs\client next\grocery\Finpro_Online-Grocery-Web-App_Frontend\src\components\product-management\Modal.tsx
   35:5   error  'React' must be in scope when using JSX  react/react-in-jsx-scope
@@ -816,5 +804,5 @@ C:\justineganteng\pemograman_new\projek\nextjs\client next\grocery\Finpro_Online
    91:5   error  Unnecessary try/catch wrapper                   no-useless-catch
   112:5   error  Unnecessary try/catch wrapper                   no-useless-catch
 
-✖ 693 problems (693 errors, 0 warnings)
+✖ 685 problems (685 errors, 0 warnings)
 

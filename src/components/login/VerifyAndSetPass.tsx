@@ -96,9 +96,6 @@ const VerifyAndSetPass: React.FC<VerifyAndSetPassProps> = ({ onSubmit }) => {
                   {errors.username && touched.username && (
                     <p className="mt-1 text-sm text-red-600">{errors.username}</p>
                   )}
-                  {errors && (
-                    <p className="mt-1 text-sm text-red-600">errror</p>
-                  )}
                 </div>
 
                 {/* First Name Field */}
