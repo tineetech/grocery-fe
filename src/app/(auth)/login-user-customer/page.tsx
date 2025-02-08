@@ -6,7 +6,7 @@ import { LoginFormCustomerValues } from "@/types/auth-types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginUser from "@/components/login/loginUser";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { signIn } from "next-auth/react";
 
 export default function StoreLoginPage() {

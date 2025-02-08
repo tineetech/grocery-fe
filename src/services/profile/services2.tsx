@@ -1,9 +1,8 @@
 "use client"
 import { useAddressCustomer } from '@/components/hooks/useAddressCustomer';
 import { Address, AddressAdd } from '@/types/address-types';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
-const base_url_be = process.env.NEXT_PUBLIC_BASE_URL_BE;
 type ToastType = "success" | "error" | "info" | "warning";
 const Services2 = () => {
   const [addressData, setAddressData] = useState<Address[]>([])

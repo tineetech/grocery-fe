@@ -1,29 +1,15 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { addressSchema } from "@/helper/validation-schema-edit-address";
 
 // Konfigurasi ikon Leaflet
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "/marker-icon-2x.png",
   iconUrl: "/marker-icon.png",
   shadowUrl: "/marker-shadow.png",
-});
-
-// Skema validasi Yup
-const addressSchema = Yup.object().shape({
-  address_name: Yup.string().required("Address name is required"),
-  address: Yup.string().required("Address is required"),
-  subdistrict: Yup.string().required("Subdistrict is required"),
-  city: Yup.string().required("City is required"),
-  city_id: Yup.string().required("City ID is required"),
-  province: Yup.string().required("Province is required"),
-  province_id: Yup.string().required("Province ID is required"),
-  postcode: Yup.string().required("Postcode is required"),
-  latitude: Yup.number().typeError("Must be a number").required("Latitude is required"),
-  longitude: Yup.number().typeError("Must be a number").required("Longitude is required"),
 });
 
 // Field input yang akan ditampilkan
@@ -41,11 +27,17 @@ const fields = [
 ];
 
 // Komponen untuk memilih lokasi di peta
-const LocationPicker = ({ setFieldValue, setMarkerPosition, markerPosition }) => {
+interface LocationPickerProps {
+  setFieldValue: (field: string, value: number) => void;
+  setMarkerPosition: (position: [number, number]) => void;
+  markerPosition: [number, number];
+}
+
+const LocationPicker: React.FC<LocationPickerProps> = ({ setFieldValue, setMarkerPosition, markerPosition }) => {
   useMapEvents({
     click(e) {
       const { lat, lng } = e.latlng;
-      setMarkerPosition([lat, lng]); // Update posisi marker
+      setMarkerPosition([Number(lat), Number(lng)]);
       setFieldValue("latitude", lat);
       setFieldValue("longitude", lng);
     },
@@ -54,8 +46,39 @@ const LocationPicker = ({ setFieldValue, setMarkerPosition, markerPosition }) =>
   return markerPosition ? <Marker position={markerPosition} /> : null;
 };
 
+
 // Formulir Edit Address
-const FormAddressEdit = ({ formData, onSubmit, setPrimaryAddress }) => {
+interface onsubmit {
+  address_name: string,
+  address: string,
+  subdistrict: string,
+  city: string,
+  city_id: string,
+  province: string,
+  province_id: string,
+  postcode: string,
+  latitude: number,
+  longitude: number,
+}
+interface FormAddressEditProps {
+  formData: {
+    address_id: number;
+    address_name: string;
+    address: string;
+    subdistrict: string;
+    city: string;
+    city_id: string;
+    province: string;
+    province_id: string;
+    postcode: string;
+    latitude: number;
+    longitude: number;
+  };
+  onSubmit: (id: number, values: onsubmit) => void;
+  setPrimaryAddress: (id: number) => void;
+}
+
+const FormAddressEdit: React.FC<FormAddressEditProps> = ({ formData, onSubmit, setPrimaryAddress }) => {
   // State untuk menyimpan posisi marker
   const [markerPosition, setMarkerPosition] = useState([formData.latitude || -6.19676128457438, formData.longitude || 106.83754574840799]);
   const [addressId, setAddressId] = useState(0)
@@ -86,8 +109,8 @@ const FormAddressEdit = ({ formData, onSubmit, setPrimaryAddress }) => {
         province: formData.province || "",
         province_id: formData.province_id || "",
         postcode: formData.postcode || "",
-        latitude: formData.latitude || -6.19676128457438,
-        longitude: formData.longitude || 106.83754574840799,
+        latitude: String(formData.latitude) || String(-6.19676128457438),
+        longitude: String(formData.longitude) || String(106.83754574840799),
       });
       setMarkerPosition([formData.latitude || -6.19676128457438, formData.longitude || 106.83754574840799]);
     }
@@ -101,7 +124,7 @@ const FormAddressEdit = ({ formData, onSubmit, setPrimaryAddress }) => {
       onSubmit={(values) => {
         console.log("Updated Data:", values);
         console.log(addressId)
-        onSubmit(addressId, values);
+        onSubmit(addressId, {...values, latitude: Number(values.latitude), longitude: Number(values.longitude) });
       }}
     >
       {({ isSubmitting, setFieldValue }) => (

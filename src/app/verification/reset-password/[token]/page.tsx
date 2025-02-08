@@ -3,9 +3,7 @@
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Image from "next/image";
 import { useEffect } from "react";
-import VerifyAndSetPass from "@/components/login/VerifyAndSetPass";
 import { VerifyResetPassValues, VerifyResetPassValues } from "@/types/auth-types";
 import { AuthService } from "@/services/auth.service";
 import VerifyResetPass from "@/components/login/VerifyResetPass";

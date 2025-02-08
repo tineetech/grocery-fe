@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { Store, MapPin, Building2, Save } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { MapPin, Building2, Save } from "lucide-react";
 import { InputField } from "@/components/store-management/StoreInputFields";
 import { StoreData, FormErrorsWithIndex, StoreDataV2 } from "@/types/store-types";
 import {
@@ -56,6 +56,8 @@ export default function EditStoreForm({
   isSubmitting,
   dataStore
 }: EditStoreFormProps) {
+  // State untuk menyimpan posisi marker
+  const [markerPosition, setMarkerPosition] = useState([formData.latitude || -6.19676128457438, formData.longitude || 106.83754574840799]);
   const handleNumberChange =
     (fieldName: "latitude" | "longitude") =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,6 +67,12 @@ export default function EditStoreForm({
         [fieldName]: value ? parseFloat(value) : undefined,
       }));
     };
+    // Efek untuk mengatur default values saat formData berubah
+      useEffect(() => {
+        if (formData) {
+          setMarkerPosition([formData.latitude || -6.19676128457438, formData.longitude || 106.83754574840799]);
+        }
+      }, [formData]);
 
   return (
     <form
@@ -156,11 +164,8 @@ export default function EditStoreForm({
 
       <div className="mb-6 h-[300px] w-full">
         <MapContainer
-          center={[
-            formData.latitude || -6.2088,
-            formData.longitude || 106.8456,
-          ]}
-          zoom={13}
+          center={markerPosition}
+          zoom={7}
           className="h-full w-full rounded-lg"
         >
           <TileLayer
@@ -168,7 +173,7 @@ export default function EditStoreForm({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           {formData.latitude && formData.longitude && (
-            <Marker position={[formData.latitude, formData.longitude]}>
+            <Marker position={markerPosition}>
               <Popup>
                 <span>Store Location</span>
               </Popup>

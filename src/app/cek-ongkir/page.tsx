@@ -1,8 +1,8 @@
 "use client"
-import { useState } from "react";
+import React, { useState } from "react";
 import { CekOngkirApi } from "@/services/cek-ongkir/CekOngkirApi";
 import Image from "next/image";
-import { ShippingRateResponseNew, ValueResponse } from "@/types/cekongkir-types";
+import { ShippingRateResponseNew } from "@/types/cekongkir-types";
 
 export default function CekOngkir() {
     const [origin, setOrigin] = useState("cilegon");

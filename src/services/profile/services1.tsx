@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from '@/helper/supabase-config';
 import { toast } from "react-toastify";
 import { ValuesSetPassAccGoogle } from "@/types/setpass-types";
@@ -23,6 +23,7 @@ const ProfileServices = () => {
     status: "Loading..",
   });
 
+  const [isSaveAvatar, setIsSaveAvatar] = useState(false);
   const [isChangeAvatar, setIsChangeAvatar] = useState(false);
   const [newFile, setNewFile] = useState({ file: null, url: "" });
 
@@ -99,11 +100,13 @@ const ProfileServices = () => {
   const handleChangeAvatar = async () => {
     if (!newFile.file) return;
     try {
+      setIsSaveAvatar(true)
       await removeOldAvatar();
       const filePath = await uploadNewAvatar(newFile.file);
       await updateAvatarInDb(filePath);
       showToast("Avatar updated successfully.", "success", () => location.reload());
     } catch {
+      setIsSaveAvatar(false)
       showToast("Failed to update avatar.", "error");
     }
   };
@@ -127,7 +130,7 @@ const ProfileServices = () => {
   const uploadNewAvatar = async (file) => {
     const extension = file.name.split(".").pop();
     const filePath = `user-${Date.now()}.${extension}`;
-    const { data, error } = await supabase.storage.from("user_avatar").upload(filePath, file, { cacheControl: "3600" });
+    const { error } = await supabase.storage.from("user_avatar").upload(filePath, file, { cacheControl: "3600" });
     if (error) throw error;
     return filePath;
   };
@@ -167,6 +170,8 @@ const ProfileServices = () => {
     saveChanges,
     handlePickImage,
     handleChangeAvatar,
+    isSaveAvatar,
+    setIsSaveAvatar,
   };
 };
 

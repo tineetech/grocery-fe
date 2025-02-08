@@ -8,24 +8,19 @@ import { formatRupiah } from "@/helper/currencyRp";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function FeaturedProducts() {
-  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-  const [location, setLocation] = useState<{ lat: number; long: number } | null>(null); // location user state
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
   const fetchProducts = async () => {
-    setLoading(true);
     try {
       const data = await productService.getProducts();
       const sortedProducts = data.sort((a, b) => b.price - a.price).slice(0, 4);
       setProducts(sortedProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -57,7 +52,6 @@ export default function FeaturedProducts() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setLocation({ lat: latitude, long: longitude });
         console.log("Your latitude : " + latitude + " Your Longtitude : " + longitude)
         const sortedByLocation = [...products]
         .filter(product => product.store.latitude !== null && product.store.longitude !== null)

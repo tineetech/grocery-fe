@@ -1,6 +1,5 @@
 
 import { Address } from "@/types/address-types";
-import { Product, ProductFormData } from "@/types/product-types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL_BE;
 

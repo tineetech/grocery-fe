@@ -7,15 +7,10 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useSearchParams } from "next/navigation";
 
-interface ProductPageProps {
- product: Product;
-}
-
 export default function ProductPage() {
  const [loading, setLoading] = useState<boolean>(false);
  const [products, setProducts] = useState<Product[]>([]);
  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
- const [location, setLocation] = useState<{ lat: number; long: number } | null>(null); // location user state
  const searchParams = useSearchParams(); //get parameter
 
   
@@ -47,7 +42,6 @@ export default function ProductPage() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setLocation({ lat: latitude, long: longitude });
         console.log("Your latitude : " + latitude + " Your Longtitude : " + longitude)
         const sortedByLocation = [...products]
         .filter(product => product.store.latitude !== null && product.store.longitude !== null)

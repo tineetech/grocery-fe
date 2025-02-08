@@ -1,9 +1,14 @@
 "use client"
 import Link from "next/link";
-import { Bell, ChevronDown, Menu, User } from 'lucide-react';
+import { Bell, ChevronDown, User } from 'lucide-react';
 import React from 'react'
 
-const HeaderSuperAdmin = ({ setIsSidebarOpen, setIsProfileDropdownOpen, isProfileDropdownOpen }) => {
+interface HeaderSuperAdminProps {
+  setIsProfileDropdownOpen: (value: boolean) => void;
+  isProfileDropdownOpen: boolean;
+}
+
+const HeaderSuperAdmin: React.FC<HeaderSuperAdminProps> = ({ setIsProfileDropdownOpen, isProfileDropdownOpen }) => {
   return (
     <header className="bg-white dark:bg-gray-800 dark:text-white">
     <div className="flex items-center justify-end px-4 py-3">

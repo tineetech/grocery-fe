@@ -1,120 +1,40 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Sidebar from "@/components/sidebarSuperAdmin";
 import Modal from "@/components/product-management/Modal";
 import ProductForm from "@/components/product-management/ProductForm";
 import ImageUploadForm from "@/components/product-management/ImageUploadForm";
-import { Product, ProductFormData } from "@/types/product-types";
-import { productService } from "@/components/hooks/useProductAdmin";
+import { Product } from "@/types/product-types";
 import { formatRupiah } from "@/helper/currencyRp";
+import HeaderSuperAdmin from "@/components/headerSuperAdmin";
+import Services1 from "@/services/products/services1";
 
 export default function ProductAdmin() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [showAddModal, setShowAddModal] = useState<boolean>(false);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  const [showImageUploadModal, setShowImageUploadModal] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [formData, setFormData] = useState<ProductFormData>({
-    name: "",
-    description: "",
-    price: "",
-    category_id: "",
-    store_id: "",
-    initial_quantity: "",
-  });
+  const {
+    loading,
+    isSidebarOpen, setIsSidebarOpen,
+    isProfileDropdownOpen, setIsProfileDropdownOpen,
+    products,
+    showAddModal, setShowAddModal,
+    showEditModal, setShowEditModal,
+    showImageUploadModal, setShowImageUploadModal,
+    setSelectedProduct,
+    selectedFiles, setSelectedFiles,
+    formData, setFormData,
+    FetchProducts,
+    handleSubmit,
+    handleImageUpload,
+    handleUpdate,
+    handleDelete,
+    resetForm,
+  } = Services1();
 
   useEffect(() => {
-    fetchProducts();
+    FetchProducts();
   }, []);
-
-  const fetchProducts = async () => {
-    setLoading(true);
-    try {
-      const data = await productService.getProducts();
-      setProducts(data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const newProduct = await productService.createProduct(formData);
-      setSelectedProduct(newProduct);
-      setShowAddModal(false);
-      setShowImageUploadModal(true);
-    } catch (error) {
-      console.error("Error creating product:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleImageUpload = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!selectedProduct || selectedFiles.length === 0) return;
-
-    setLoading(true);
-    try {
-      await productService.uploadProductImages(selectedProduct.product_id, selectedFiles);
-      await fetchProducts();
-      setShowImageUploadModal(false);
-      resetForm();
-    } catch (error) {
-      console.error("Error uploading images:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      if (!selectedProduct) throw new Error("No product selected");
-      await productService.updateProduct(selectedProduct.product_id, formData);
-      await fetchProducts();
-      setShowEditModal(false);
-      resetForm();
-    } catch (error) {
-      console.error("Error updating product:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (productId: number) => {
-    if (!confirm("Are you sure you want to delete this product?")) return;
-    try {
-      await productService.deleteProduct(productId);
-      await fetchProducts();
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
-  };
-
-  const resetForm = () => {
-    setFormData({
-      name: "",
-      description: "",
-      price: "",
-      category_id: "",
-      store_id: "",
-      initial_quantity: "",
-    });
-    setSelectedProduct(null);
-    setSelectedFiles([]);
-  };
 
   const renderProductCard = (product: Product) => (
     <div
@@ -176,13 +96,14 @@ export default function ProductAdmin() {
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-      <div className={`${isSidebarOpen ? "md:ml-20" : ""}`}>
+      <div className={`${isSidebarOpen ? "" : ""}`}>
         <Sidebar
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
-        <div className="p-4 ml-[10vw]">
-          <div className="flex justify-between items-center mb-6">
+        <HeaderSuperAdmin setIsSidebarOpen={setIsSidebarOpen} setIsProfileDropdownOpen={setIsProfileDropdownOpen} isProfileDropdownOpen={isProfileDropdownOpen} />
+        <div className="p-4">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
             <h1 className="text-2xl font-bold">Products Management</h1>
             <button
               onClick={() => setShowAddModal(true)}
@@ -247,7 +168,7 @@ export default function ProductAdmin() {
             onClose={() => {
               setShowImageUploadModal(false);
               resetForm();
-              fetchProducts();
+              FetchProducts();
             }}
             title="Upload Product Images"
           >

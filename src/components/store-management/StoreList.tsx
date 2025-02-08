@@ -11,7 +11,7 @@ interface StoreListProps {
   onDeleteStore: (storeId: number) => void;
 }
 
-export default function StoreList({ stores, setStores, setLoading, onDeleteStore }: StoreListProps) {
+export default function StoreList({ stores, onDeleteStore }: StoreListProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataStore, setDataStore] = useState({
     store_id: "",
@@ -28,16 +28,6 @@ export default function StoreList({ stores, setStores, setLoading, onDeleteStore
     location.reload()
   };
   
-  const fetchStores = async () => {
-    try {
-      const data = await storeService.getStores();
-      setStores(data);
-    } catch (error) {
-      console.error("Error fetching stores:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       {stores.map((store) => (
@@ -50,15 +40,15 @@ export default function StoreList({ stores, setStores, setLoading, onDeleteStore
                 onClick={() => {
                   setDataStore({
                     ...dataStore,
-                    store_id: store.store_id,
+                    store_id: String(store.store_id),
                     store_name: store.store_name,
                     subdistrict: store.subdistrict,
                     city: store.city,
                     province: store.province,
                     address: store.address,
                     postcode: store.postcode,
-                    latitude: store.latitude,
-                    longitude: store.longitude,
+                    latitude: String(store.latitude),
+                    longitude: String(store.longitude),
                   })
                   setIsModalOpen(true)
                 }}

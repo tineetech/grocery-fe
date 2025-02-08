@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import Sidebar from "@/components/sidebarSuperAdmin";
 import CategoryCard from "@/components/category-management/CategoryCard";

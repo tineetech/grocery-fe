@@ -1,9 +1,8 @@
 "use client"
 import { ordersCust } from '@/components/hooks/OrdersCust';
 import { Orders } from '@/types/orders-types';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
-const base_url_be = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
 const Services3 = () => {
   const [ordersData, setOrdersData] = useState<Orders[]>([])

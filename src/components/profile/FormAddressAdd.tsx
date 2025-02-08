@@ -1,5 +1,4 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -43,19 +42,22 @@ interface LocationPickerProps {
   setFieldValue: (field: string, value: number) => void;
 }
 
+// interface FormAddressAddProps {
+//   onsubmit: (values: {
+//     address_name: string;
+//     address: string;
+//     subdistrict: string;
+//     city: string;
+//     city_id: string;
+//     province: string;
+//     province_id: string;
+//     postcode: string;
+//     latitude: string;
+//     longitude: string;
+//   }) => void;
+// }
 interface FormAddressAddProps {
-  onsubmit: (values: {
-    address_name: string;
-    address: string;
-    subdistrict: string;
-    city: string;
-    city_id: string;
-    province: string;
-    province_id: string;
-    postcode: string;
-    latitude: string;
-    longitude: string;
-  }) => void;
+  onsubmit: (values: typeof initialValues) => void;
 }
 
 

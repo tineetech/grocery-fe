@@ -1,13 +1,10 @@
 "use client";
 
-import LoginFormStore from "@/components/login/loginStoreAdmin";
 import { AuthService } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 import { RegisterFormCustomerValues } from "@/types/auth-types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LoginUser from "@/components/login/loginUser";
-import RegisterCustomer from "@/components/register/RegisterCustomer";
 import React, { useEffect } from "react";
 import RegisterStoreAdmin from "@/components/register/RegisterStoreAdmin";
 

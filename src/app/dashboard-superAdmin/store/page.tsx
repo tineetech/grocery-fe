@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "@/components/sidebarSuperAdmin";
 import { storeService } from "@/components/hooks/useStoreAdmin";
 import { StoreData } from "@/types/store-types";
@@ -94,7 +94,7 @@ export default function StoreDashboard() {
             </div>
           </header>
 
-          <StoreList stores={stores} setStores={setStores} setLoading={setLoading} onDeleteStore={handleDeleteStore} />
+          <StoreList stores={stores} onDeleteStore={handleDeleteStore} />
 
           <AddStoreModal
              formData={formData}

@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, ShoppingCart, X } from "lucide-react";
+import { Search, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [setIsSearchOpen] = useState(false);
+  const [setIsCartOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState('')
 

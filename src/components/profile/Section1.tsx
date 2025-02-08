@@ -17,6 +17,7 @@ const Section1 = () => {
     handleChangeAvatar,
     setProfile,
     setPasswordHandle,
+    isSaveAvatar,
   } = ProfileServices();
   const [modalSetPass, setModalSetPass] = useState(false)
   
@@ -71,6 +72,7 @@ const Section1 = () => {
               ? handleChangeAvatar()
               : console.log("isi terlebih dahulu")
           }
+          disabled={isSaveAvatar}
         >
           {isChangeAvatar ? "Save New Avatar" : "Change Avatar"}
           <input

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { SalesChart, StockChart } from "@/components/chart-table/Chart";
 import StoreSideBar from "@/components/sidebarStoreAdmin";
 
