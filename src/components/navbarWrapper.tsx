@@ -7,14 +7,24 @@ import { useEffect } from "react";
 export default function NavbarWrapper() {
   const pathname = usePathname();
   useEffect(() => {
-    if (!localStorage.getItem('first_new_update')) {
-      localStorage.setItem('first_new_update', "true")
-      localStorage.removeItem('token')
-      localStorage.removeItem('is_login')
-      localStorage.removeItem('exp_token')
-      console.log('success updated and set to firebase')
-    }
-    console.log('now going in new version web application')
+    const checkAndResetLocalStorageEveryDay = () => {
+      const now = new Date();
+      const today = now.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+      
+      console.log('now going in new version web application')
+
+      const lastReset = localStorage.getItem("last_reset_date");
+      // console.log(today)
+      if (lastReset !== today || !localStorage.getItem('first_new_update2')) {
+        console.log("Resetting localStorage for a new day...");
+        localStorage.clear();
+        localStorage.removeItem('first_new_update')
+        localStorage.setItem('first_new_update2', "true")
+        localStorage.setItem("last_reset_date", today); // Simpan tanggal reset terbaru
+      }
+    };
+
+    checkAndResetLocalStorageEveryDay()
   })
 
   // Untuk misahin navbar customer dan promotor

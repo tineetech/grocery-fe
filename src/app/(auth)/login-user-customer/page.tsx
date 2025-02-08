@@ -1,6 +1,5 @@
 "use client";
 
-import LoginFormStore from "@/components/login/loginStoreAdmin";
 import { AuthService } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 import { LoginFormCustomerValues } from "@/types/auth-types";
@@ -8,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginUser from "@/components/login/loginUser";
 import { useEffect } from "react";
-import { getSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export default function StoreLoginPage() {
   const router = useRouter();

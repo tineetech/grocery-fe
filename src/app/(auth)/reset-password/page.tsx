@@ -10,7 +10,7 @@ import ResetPassword from "@/components/register/ResetPassword";
 export default function StoreResetPass() {
   const router = useRouter();
   useEffect(() => {
-      if (localStorage.getItem('verify_reset_pass') && (localStorage.getItem('is_login') || !localStorage.getItem('is_login'))) {
+      if (localStorage.getItem('token') && localStorage.getItem('is_login')) {
         router.push("/");
       }
   }, [router])

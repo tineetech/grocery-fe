@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { LoginFormStoreValues } from "@/types/auth-types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 export default function StoreLoginPage() {
   const router = useRouter();
