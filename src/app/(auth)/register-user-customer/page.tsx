@@ -26,6 +26,8 @@ export default function StoreRegisterPage() {
       const response = await AuthService.register(values);
 
       if (response.user.role === "customer") {
+        localStorage.setItem('verify_email' ,'true')
+        localStorage.setItem('token' , response.token)
         toast.dismiss();
         toast.success("Register successful, please check youre email! Redirecting...", {
           position: "bottom-right",

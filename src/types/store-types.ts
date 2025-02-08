@@ -24,7 +24,7 @@ export interface EditData {
   province: string;
   postcode: string;
   latitude?: number;
-  longitude?: string;
+  longitude?: number;
   user_id: number;
 }
 

@@ -18,8 +18,10 @@ export default function VerifyTokenForm() {
   }, [router])
 
   const checkToken = async () => {
+    const pathParts = window.location.pathname.split("/");
+    const tokenValue = pathParts[pathParts.length - 1];
     try {
-      const res = await AuthService.checkTokenVerifyEmailExp(localStorage.getItem('token'))
+      const res = await AuthService.checkTokenVerifyEmailExp(tokenValue)
       if (res.status === "ok") {
         return console.log(res.message)
       } else {

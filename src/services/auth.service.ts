@@ -1,16 +1,5 @@
-import {
-  LoginFormValues,
-  LoginResponse,
-  ApiError,
-  RegisterFormCustomerValues,
-  RegisterResponse,
-  VerifyAndSetPassValues,
-  VerifyResponse,
-  RegisterFormStoreAdminValues,
-  ResetPassValues,
-  ResetPassResponse,
-  VerifyResetPassValues,
-} from "../types/auth-types";
+// services/auth.service.ts
+import { LoginFormValues, LoginResponse, ApiError, RegisterFormCustomerValues, RegisterResponse, VerifyAndSetPassValues, VerifyResponse, RegisterFormStoreAdminValues, ResetPassValues, ResetPassResponse, VerifyResetPassValues } from "../types/auth-types";
 
 interface DecodedToken {
   id: string;
@@ -19,67 +8,231 @@ interface DecodedToken {
   exp: number;
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL_BE;
-
-const request = async <T>(
-  endpoint: string,
-  method: string,
-  body?: object,
-  auth: boolean = false
-): Promise<T> => {
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-  };
-  if (auth) headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
-
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    method,
-    headers,
-    credentials: "include",
-    body: body ? JSON.stringify(body) : undefined,
-  });
-
-  if (!res.ok) {
-    const error: ApiError = await res.json();
-    throw new Error(error.message || "Request failed");
-  }
-  return res.json();
-};
+const base_url_be = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
 export class AuthService {
   static async register(credentials: RegisterFormCustomerValues): Promise<RegisterResponse> {
-    return request<RegisterResponse>("/auth/register", "POST", credentials);
+    try {
+      const response = await fetch(`${base_url_be}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        const error = (await response.json()) as ApiError;
+        throw new Error(error.message || "Login failed");
+      }
+
+      const data = (await response.json()) as RegisterResponse;
+
+      if (data.token) {
+        localStorage.setItem("verify_email", "true");
+        localStorage.setItem("token", data.token);
+      }
+
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("An unexpected error occurred");
+    }
   }
 
   static async registerStoreAdmin(credentials: RegisterFormStoreAdminValues): Promise<RegisterResponse> {
-    return request<RegisterResponse>("/auth/register/store-admin", "POST", credentials);
-  }
+    try {
+      const response = await fetch(`${base_url_be}/auth/register/store-admin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(credentials),
+      });
 
-  static async verifyAndSetPass(credentials: VerifyAndSetPassValues): Promise<VerifyResponse> {
-    return request<VerifyResponse>("/auth/verification", "POST", credentials, true);
+      if (!response.ok) {
+        const error = (await response.json()) as ApiError;
+        throw new Error(error.message || "Login failed");
+      }
+
+      const data = (await response.json()) as RegisterResponse;
+
+      if (data.token) {
+        localStorage.setItem("verify_email", "true");
+        localStorage.setItem("token", data.token);
+      }
+
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("An unexpected error occurred");
+    }
+  }
+  
+  static async verifikasiAndSetPass(credentials: VerifyAndSetPassValues): Promise<VerifyResponse> {
+    try {
+      console.log(credentials)
+      const response = await fetch(`${base_url_be}/auth/verification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        credentials: "include",
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        const error = (await response.json()) as ApiError;
+        throw new Error(error.message || "Login failed");
+      }
+
+      const data = (await response.json()) as VerifyResponse;
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("An unexpected error occurred");
+    }
   }
 
   static async resetPass(credentials: ResetPassValues): Promise<ResetPassResponse> {
-    return request<ResetPassResponse>("/auth/reset-password", "POST", credentials);
-  }
+    try {
+      const response = await fetch(`${base_url_be}/auth/reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(credentials),
+      });
 
-  static async verifyResetPass(credentials: VerifyResetPassValues): Promise<VerifyResponse> {
-    return request<VerifyResponse>("/auth/verify/reset-password", "POST", credentials, true);
+      if (!response.ok) {
+        const error = (await response.json()) as ApiError;
+        throw new Error(error.message || "Login failed");
+      }
+
+      const data = (await response.json()) as ResetPassResponse;
+
+      if (data.token) {
+        localStorage.setItem("verify_reset_pass", "true");
+        localStorage.setItem("token", data.token);
+      }
+
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("An unexpected error occurred");
+    }
+  }
+  
+  static async verifikasResetPass(credentials: VerifyResetPassValues): Promise<VerifyResponse> {
+    try {
+      const response = await fetch(`${base_url_be}/auth/verify/reset-password`, {
+        method: "POST",
+        headers: {  
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        credentials: "include",
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        const error = (await response.json()) as ApiError;
+        throw new Error(error.message || "Reset Password failed");
+      }
+
+      const data = (await response.json()) as VerifyResponse;
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("An unexpected error occurred");
+    }
   }
 
   static async login(credentials: LoginFormValues): Promise<LoginResponse> {
-    const data = await request<LoginResponse>("/auth/login", "POST", credentials);
-    localStorage.setItem("is_login", "true");
-    localStorage.setItem("token", data.token);
-    return data;
+    // console.log(credentials)
+    try {
+      const response = await fetch(`${base_url_be}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        const error = (await response.json()) as ApiError;
+        throw new Error(error.message || "Login failed");
+      }
+
+      const data = (await response.json()) as LoginResponse;
+
+      if (data.token) {
+        localStorage.setItem("is_login", "true");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("exp_token", "24 Hours");
+      }
+
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("An unexpected error occurred");
+    }
   }
 
-  static logout(): void {
-    ["token", "is_login", "exp_token"].forEach((key) => localStorage.removeItem(key));
+  static async logout(): Promise<void> {
+    localStorage.removeItem("token");
+    localStorage.removeItem("is_login");
+    localStorage.removeItem("exp_token");
   }
 
-  static async checkTokenVerifyEmailExp(): Promise<void> {
-    return request<void>(`/auth/check-email-token/${localStorage.getItem("token")}`, "GET");
+  static async checkTokenVerifyEmailExp(token: string): Promise<void> {
+    try {
+      const response = await fetch(`${base_url_be}/auth/check-email-token/${localStorage.getItem('token')}`, {
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+
+      if (!response.ok) {
+        const error = (await response.json()) as ApiError;
+        throw new Error(error.message || "Token Expired");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("An unexpected error occurred");
+    }
   }
 
   static getToken(): string | null {
@@ -91,11 +244,17 @@ export class AuthService {
   }
 
   static parseToken(): DecodedToken | null {
+    const token = this.getToken();
+    if (!token) return null;
+
     try {
-      const token = this.getToken();
-      if (!token) return null;
-      return JSON.parse(atob(token.split(".")[1])) as DecodedToken;
+      const [, payloadB64] = token.split(".");
+      if (!payloadB64) return null;
+
+      const payload = JSON.parse(atob(payloadB64));
+      return payload as DecodedToken;
     } catch {
+      // If token parsing fails, clear it
       this.logout();
       return null;
     }

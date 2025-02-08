@@ -109,8 +109,8 @@ export const storeService = {
             city: formData.city,
             province: formData.province,
             postcode: formData.postcode,
-            latitude: formData.latitude,
-            longitude: formData.longitude,
+            latitude: Number(formData.latitude),
+            longitude: Number(formData.longitude),
             user_id: userId ? userId : null
           };
   
@@ -152,9 +152,11 @@ export const storeService = {
         },
       });
 
+      const data = await response.json()
+      // console.log(data.error)
       if (!response.ok) {
         throw new StoreServiceError(
-          `Failed to delete store: ${response.statusText}`,
+          `Failed to delete store: ${data.error}`,
           response.status
         );
       }

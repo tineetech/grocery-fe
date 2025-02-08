@@ -144,7 +144,7 @@ export default function EditStoreForm({
       <div className="grid md:grid-cols-2 gap-6">
         <InputField
           name="latitude"
-          label="Latitude (Optional)"
+          label="Latitude"
           Icon={MapPin}
           type="number"
           value={formData.latitude?.toString()}
@@ -153,7 +153,7 @@ export default function EditStoreForm({
         />
         <InputField
           name="longitude"
-          label="Longitude (Optional)"
+          label="Longitude"
           Icon={MapPin}
           type="number"
           value={formData.longitude}

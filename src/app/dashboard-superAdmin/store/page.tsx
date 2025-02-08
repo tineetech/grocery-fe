@@ -42,6 +42,7 @@ export default function StoreDashboard() {
       await storeService.deleteStore(storeId);
       await fetchStores();
     } catch (error) {
+      alert('gagal menghapus: ' + error.message || "")
       console.error("Error deleting store:", error);
     }
   };
